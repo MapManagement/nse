@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./../datse/migrations:/migrations
+    command: "-path=/migrations/ -database postgres://postgres:Abc1234_@postgres:5432/nse_dev?sslmode=disable up"
+
+  datse:
+    build: ./../datse/.
+    ports:
+      - "5011:8080"
+    volumes:
+      - ..:/code
+    depends_on:
+      - migrate
+    environment:
+      TZ: Europe/Berlin
+      NSE_TIMEZONE: Europe/Berlin
+      NSE_LOG_LEVEL: DEBUG
+      NSE_DB_HOST: postgres
+      NSE_DB_USER: postgres
+      NSE_DB_PASS: Abc1234_
+      NSE_DB_PORT: 5432
+      NSE_DB_NAME: nse_dev
+
+networks:
+  default:
+    name: infrastructure_nse_dev
+    external: true
