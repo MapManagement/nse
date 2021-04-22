@@ -11,7 +11,7 @@
 
 ```bash
 cd _dev/infrastructure
-docker-compuse up -d
+docker-compose up -d
 
 cd ..
 docker-compose up
